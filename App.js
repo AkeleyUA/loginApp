@@ -6,6 +6,7 @@ import HomeScreen from './screens/homeScreen';
 import SettingsScreen from './screens/settingsScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {NavigationContainer} from '@react-navigation/native';
+import SplashScreen from 'react-native-splash-screen';
 import {
   createStackNavigator,
   CardStyleInterpolators,
@@ -18,17 +19,17 @@ const Tab = createBottomTabNavigator();
 const isLogged = true;
 
 const App = () => {
-  // const [hideSplash, setHideSplash] = useState(false);
+  const [hideSplash, setHideSplash] = useState(false);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     setHideSplash(true);
-  //   }, 1000);
-  // }, []);
+  useEffect(() => {
+    setTimeout(() => {
+      setHideSplash(true);
+    }, 1);
+  }, []);
 
-  // useEffect(() => {
-  //   hideSplash && SplashScreen.hide();
-  // }, [hideSplash]);
+  useEffect(() => {
+    hideSplash && SplashScreen.hide();
+  }, [hideSplash]);
 
   if (isLogged) {
     return (
