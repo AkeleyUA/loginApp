@@ -4,6 +4,7 @@ import LoginScreen from './screens/loginScreen';
 import RegistrationScreen from './screens/registrationScreen';
 import HomeScreen from './screens/homeScreen';
 import SettingsScreen from './screens/settingsScreen';
+import WelcomeScreen from './screens/welcomeScreen';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {NavigationContainer} from '@react-navigation/native';
 import SplashScreen from 'react-native-splash-screen';
@@ -13,28 +14,34 @@ import {
 } from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
+import {observer} from 'mobx-react';
+import store from './store/auth';
+
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const isLogged = true;
-
 const App = () => {
-  const [hideSplash, setHideSplash] = useState(false);
+  const [welcome, setWelcome] = useState(true);
+  const {userID, startLoading} = store;
 
   useEffect(() => {
-    setTimeout(() => {
-      setHideSplash(true);
-    }, 1);
+    if (!startLoading) {
+      SplashScreen.hide();
+    }
+  }, [startLoading]);
+
+  useEffect(() => {
+    setTimeout(() => setWelcome(false), 2000);
   }, []);
 
-  useEffect(() => {
-    hideSplash && SplashScreen.hide();
-  }, [hideSplash]);
-
-  if (isLogged) {
+  if (userID) {
+    if (welcome) {
+      return <WelcomeScreen />;
+    }
     return (
       <NavigationContainer>
         <Tab.Navigator
+          initialRouteName="Home"
           tabBarOptions={{
             labelStyle: {
               textTransform: 'uppercase',
@@ -76,4 +83,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default observer(App);

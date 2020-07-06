@@ -1,10 +1,13 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {observer} from 'mobx-react';
+import store from '../store/auth';
 
 const SettingsScreen = () => {
+  const {onLogout} = store;
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.btn}>
+      <TouchableOpacity style={styles.btn} onPress={() => onLogout()}>
         <Text style={styles.btnText}>Sing out</Text>
       </TouchableOpacity>
     </View>
@@ -35,4 +38,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SettingsScreen;
+export default observer(SettingsScreen);

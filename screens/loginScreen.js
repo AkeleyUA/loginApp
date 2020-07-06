@@ -6,31 +6,40 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import {observer} from 'mobx-react';
+import store from '../store/auth';
 
 const LoginScreen = ({navigation}) => {
   const registrationHandler = () => {
     navigation.navigate('Registration');
   };
+  const {email, password, onChange, onLogin} = store;
   return (
     <View style={styles.container}>
       <View>
         <TextInput
+          value={email}
           style={styles.input}
           allowFontScaling={false}
           autoCapitalize="none"
           autoCompleteType="email"
           keyboardType="email-address"
           placeholder="Enter email"
+          onChangeText={text => onChange('email', text)}
         />
         <TextInput
+          value={password}
           style={styles.input}
           allowFontScaling={false}
           autoCapitalize="none"
           autoCompleteType="off"
           placeholder="Enter password"
           secureTextEntry
+          onChangeText={text => onChange('password', text)}
         />
-        <TouchableOpacity style={[styles.btn, styles.login]}>
+        <TouchableOpacity
+          style={[styles.btn, styles.login]}
+          onPress={() => onLogin()}>
           <Text style={[styles.btnText, styles.btnTextLogin]}>Sing in</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -85,4 +94,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default observer(LoginScreen);

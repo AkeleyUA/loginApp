@@ -6,41 +6,52 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
+import {observer} from 'mobx-react';
+import store from '../store/auth';
 
 const RegistrationScreen = ({navigation}) => {
   const backHandler = () => {
     navigation.goBack();
   };
+  const {email, password, confirmPassword, onRegistration, onChange} = store;
   return (
     <View style={styles.container}>
       <View>
         <TextInput
+          value={email}
           style={styles.input}
           allowFontScaling={false}
           autoCapitalize="none"
           autoCompleteType="email"
           keyboardType="email-address"
           placeholder="Enter email"
+          onChangeText={text => onChange('email', text)}
         />
         <TextInput
+          value={password}
           style={styles.input}
           allowFontScaling={false}
           autoCapitalize="none"
           autoCompleteType="off"
           placeholder="Enter password"
           secureTextEntry
+          onChangeText={text => onChange('password', text)}
         />
 
         <TextInput
+          value={confirmPassword}
           style={styles.input}
           allowFontScaling={false}
           autoCapitalize="none"
           autoCompleteType="off"
           placeholder="Confirm password"
           secureTextEntry
+          onChangeText={text => onChange('confirmPassword', text)}
         />
 
-        <TouchableOpacity style={[styles.btn, styles.login]}>
+        <TouchableOpacity
+          style={[styles.btn, styles.login]}
+          onPress={() => onRegistration()}>
           <Text style={[styles.btnText, styles.btnTextLogin]}>
             Registration
           </Text>
@@ -97,4 +108,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default RegistrationScreen;
+export default observer(RegistrationScreen);
